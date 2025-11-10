@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript OOP Visualizer</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #1e1e1e;
+        color: #f5f5f5;
+        font-family: "Segoe UI", sans-serif;
+        font-size: 18px;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background: #252526;
+        padding: 20px;
+        text-align: center;
+        font-size: 22px;
+        border-bottom: 2px solid #3b82f6;
+      }
+      nav {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        padding: 10px;
+        background: #2d2d2d;
+        border-bottom: 1px solid #333;
+      }
+      nav button {
+        background: #3b82f6;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 6px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.3s;
+      }
+      nav button:hover {
+        background: #2563eb;
+      }
+      section {
+        display: none;
+        padding: 30px;
+        animation: fadeIn 0.8s ease forwards;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      section.active {
+        display: flex;
+        gap: 24px;
+        align-items: flex-start;
+      }
+      pre {
+        background: #252526;
+        color: #d4d4d4;
+        padding: 18px;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-size: 13px; /* giảm 2px */
+        flex: 1.5; /* mở rộng code */
+        line-height: 1.6;
+      }
+      .demo {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .console {
+        background: #111;
+        padding: 18px;
+        border-radius: 8px;
+        margin-top: 20px;
+        font-family: monospace;
+        font-size: 16px;
+        min-height: 100px;
+        color: #9ef79e;
+        border-left: 4px solid #3b82f6;
+      }
+      .fade {
+        opacity: 0;
+        animation: fadeIn 1.2s ease forwards;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .run-btn {
+        background: #22c55e;
+        color: white;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: 0.3s;
+      }
+      .run-btn:hover {
+        background: #16a34a;
+      }
+    </style>
+  </head>
+  <body>
+    <header>💻 JavaScript OOP Visualizer</header>
+    <nav>
+      <button data-tab="1">Class & Kế thừa</button>
+      <button data-tab="2">Static</button>
+      <button data-tab="3">Getter / Setter</button>
+      <button data-tab="4">Chaining</button>
+      <button data-tab="5">Service CRUD</button>
+    </nav>
+
+    <section id="tab1" class="active">
+      <pre><code class="language-js">class User {
+  constructor(name, email) {
+    this.name = name;
+    this.email = email;
+  }
+  getName() { console.log(this.name); }
+  getEmail() { console.log(this.email); }
+}
+
+class Auth extends User {
+  getProfile() { return [this.name, this.email, this.age, this.status]; }
+  constructor(name, email, age, status) {
+    super(name, email);
+    this.age = age;
+    this.status = status;
+  }
+}
+
+const auth = new Auth("User2", "user2@gmail.com", 25, true);
+console.log(auth.getProfile());
+
+class Auth2 extends Auth {
+  getProfile() { return [this.name, this.email, this.age, this.status, this.test]; }
+  constructor(name, email, age, status, test) {
+    super(name, email, age, status);
+    this.test = test;
+  }
+  getEmail() { super.getEmail(); }
+}
+
+const auth2 = new Auth2("User2", "user2@gmail.com", 25, true, "TEST");
+console.log(auth2.getProfile());
+auth2.getEmail();</code></pre>
+      <div class="demo">
+        <button class="run-btn" onclick="runDemo(1)">▶ Run Demo</button>
+        <div id="console1" class="console"></div>
+      </div>
+    </section>
+
+    <section id="tab2">
+      <pre><code class="language-js">class User {
+  static name = "Phương Anh";
+  email = "anhvtp@f8.fullstack.edu";
+  static getName() { console.log("Xin chào, tôi là " + this.name); }
+  getName2() { console.log(this.constructor.name); }
+  static getEmail() { console.log(new this().email); }
+}
+
+console.log(User.name);
+User.getName();
+User.getEmail();</code></pre>
+      <div class="demo">
+        <button class="run-btn" onclick="runDemo(2)">▶ Run Demo</button>
+        <div id="console2" class="console"></div>
+      </div>
+    </section>
+
+    <section id="tab3">
+      <pre><code class="language-js">class User {
+  #data = ["Item 1", "Item 2", "Item 3"];
+  get latest() { return this.#data[this.#data.length - 1]; }
+  set latest(value) {
+    if (value === "admin") {
+      console.log("Invalid Value");
+      return;
+    }
+    this.#data.push(value);
+  }
+}
+const user = new User();
+user.latest = "Item 4";
+user.latest = "admin";
+console.log(user.latest);</code></pre>
+      <div class="demo">
+        <button class="run-btn" onclick="runDemo(3)">▶ Run Demo</button>
+        <div id="console3" class="console"></div>
+      </div>
+    </section>
+
+    <section id="tab4">
+      <pre><code class="language-js">class Calc {
+  #data;
+  constructor(value) { this.#data = value; }
+  add(v){ this.#data += v; return this; }
+  minus(v){ this.#data -= v; return this; }
+  multi(v){ this.#data *= v; return this; }
+  div(v){ this.#data /= v; return this; }
+  get(){ return this.#data; }
+}
+const result = new Calc(5).add(3).minus(2).multi(6).div(3).get();
+console.log(result);</code></pre>
+      <div class="demo">
+        <button class="run-btn" onclick="runDemo(4)">▶ Run Demo</button>
+        <div id="console4" class="console"></div>
+      </div>
+    </section>
+
+    <section id="tab5">
+      <pre><code class="language-js">class Service {
+  #data = [];
+  add(item){ this.#data.push(item); }
+  list(){ return this.#data; }
+}
+
+class Product { constructor(id, name, price){ Object.assign(this, {id, name, price}); } }
+class User { constructor(id, name, email){ Object.assign(this, {id, name, email}); } }
+
+const productService = new Service();
+productService.add(new Product(1, "Product 1", 1000));
+productService.add(new Product(2, "Product 2", 1000));
+console.log(productService.list());</code></pre>
+      <div class="demo">
+        <button class="run-btn" onclick="runDemo(5)">▶ Run Demo</button>
+        <div id="console5" class="console"></div>
+      </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script>
+      const tabs = document.querySelectorAll("nav button");
+      const sections = document.querySelectorAll("section");
+      tabs.forEach((btn) =>
+        btn.addEventListener("click", () => {
+          sections.forEach((s) => s.classList.remove("active"));
+          tabs.forEach((t) => t.classList.remove("active-tab"));
+          document
+            .querySelector(`#tab${btn.dataset.tab}`)
+            .classList.add("active");
+          btn.classList.add("active-tab");
+        })
+      );
+
+      function fadeLog(id, lines) {
+        const c = document.getElementById(`console${id}`);
+        c.innerHTML = "";
+        lines.forEach((line, i) => {
+          setTimeout(() => {
+            const div = document.createElement("div");
+            div.className = "fade";
+            div.textContent = line;
+            c.appendChild(div);
+          }, i * 800);
+        });
+      }
+
+      function runDemo(id) {
+        const demos = {
+          1: [
+            "Auth kế thừa User",
+            "auth.getProfile() -> [name,email,age,status]",
+            "Auth2 kế thừa Auth -> ghi đè getEmail()",
+          ],
+          2: [
+            "Static property: User.name = 'Phương Anh'",
+            "Static method: User.getName() -> 'Xin chào, tôi là Phương Anh'",
+            "User.getEmail() -> 'anhvtp@f8.fullstack.edu'",
+          ],
+          3: [
+            "Thêm 'Item 4'",
+            "Bỏ qua 'admin' -> Invalid Value",
+            "Kết quả cuối: Item 4",
+          ],
+          4: [
+            "Start: 5",
+            "Add 3 -> 8",
+            "Minus 2 -> 6",
+            "Multi 6 -> 36",
+            "Div 3 -> 12",
+          ],
+          5: [
+            "Tạo productService",
+            "Thêm Product 1 & 2",
+            "Danh sách hiển thị sản phẩm",
+          ],
+        };
+        fadeLog(id, demos[id]);
+      }
+    </script>
+  </body>
+</html>

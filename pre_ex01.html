@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sơ đồ Person Prototype</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: #f0f2f5;
+      }
+      svg {
+        width: 1200px;
+        height: 700px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      }
+      .box {
+        fill: #fafafa;
+        stroke: #333;
+        stroke-width: 1.5;
+        rx: 10;
+        ry: 10;
+      }
+      .title {
+        font-family: Arial, sans-serif;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .text {
+        font-family: Arial, sans-serif;
+        font-size: 15px;
+      }
+      .label {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        fill: #555;
+      }
+      .arrow {
+        stroke: #333;
+        stroke-width: 1.5;
+        marker-end: url(#arrowhead);
+        fill: none;
+      }
+    </style>
+  </head>
+  <body>
+    <svg viewBox="0 0 1200 700">
+      <defs>
+        <marker
+          id="arrowhead"
+          markerWidth="10"
+          markerHeight="10"
+          refX="7"
+          refY="3"
+          orient="auto"
+        >
+          <polygon points="0 0, 7 3, 0 6" fill="#333" />
+        </marker>
+      </defs>
+
+      <!-- Person (constructor) -->
+      <rect x="450" y="50" width="300" height="130" class="box" />
+      <text x="470" y="80" class="title">Person (constructor)</text>
+      <text x="470" y="110" class="label">Static:</text>
+      <text x="470" y="130" class="text">message = "Học JS không khó"</text>
+      <text x="470" y="150" class="text">isPerson(instance) { … }</text>
+
+      <!-- prototype -->
+      <rect x="450" y="250" width="300" height="130" class="box" />
+      <text x="470" y="280" class="title">Person.prototype</text>
+      <text x="470" y="310" class="label">Non-static (dùng cho instance):</text>
+      <text x="470" y="330" class="text">data = "Hello anh em F8!"</text>
+      <text x="470" y="350" class="text">getData() { return this.data }</text>
+
+      <!-- person1 -->
+      <rect x="80" y="250" width="300" height="200" class="box" />
+      <text x="100" y="280" class="title">person1 (instance)</text>
+      <text x="100" y="310" class="text">name = "Phương Anh"</text>
+      <text x="100" y="330" class="text">age = 25</text>
+      <text x="100" y="350" class="text">email = "anhvtpf@..."</text>
+      <text x="100" y="380" class="label">Truy cập được:</text>
+      <text x="100" y="400" class="text">person1.data</text>
+      <text x="100" y="420" class="text">person1.getData()</text>
+
+      <!-- static zone -->
+      <rect x="800" y="250" width="300" height="150" class="box" />
+      <text x="820" y="280" class="title">Static chỉ trên Person</text>
+      <text x="820" y="310" class="label">Truy cập đúng:</text>
+      <text x="820" y="330" class="text">Person.message</text>
+      <text x="820" y="350" class="text">Person.isPerson(person1)</text>
+      <text x="820" y="370" class="label">Sai:</text>
+      <text x="820" y="390" class="text">person1.message // undefined</text>
+
+      <!-- arrows -->
+      <line x1="600" y1="180" x2="600" y2="250" class="arrow" />
+      <text x="610" y="215" class="label">prototype</text>
+
+      <line x1="380" y1="320" x2="450" y2="320" class="arrow" />
+      <text x="380" y="310" class="label">__proto__</text>
+    </svg>
+    <script src="./js/pre_ex01.js"></script>
+  </body>
+</html>
