@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>demo</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: #f4f6fa;
+        margin: 0;
+        padding: 40px;
+        color: #333;
+      }
+      h1 {
+        text-align: center;
+        color: #2b3a67;
+        margin-bottom: 40px;
+      }
+      .dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+        gap: 25px;
+        max-width: 1200px;
+        margin: auto;
+      }
+      .card {
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        transition: 0.3s;
+      }
+      .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      }
+      h2 {
+        color: #0078ff;
+        margin-top: 0;
+      }
+      button {
+        background: #0078ff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 18px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      button:hover {
+        background: #005ecc;
+      }
+      .result {
+        margin-top: 15px;
+      }
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 15px;
+        margin-top: 10px;
+      }
+      .product-card {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #fafafa;
+        text-align: center;
+      }
+      .product-card img {
+        width: 100%;
+        height: 130px;
+        object-fit: cover;
+      }
+      .product-card .name {
+        font-weight: 600;
+        margin: 8px 0;
+      }
+      .product-card .price {
+        color: #0078ff;
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+      .video-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+      }
+      .video-card {
+        background: #fefefe;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+      }
+      iframe,
+      video {
+        width: 100%;
+        border-radius: 8px;
+      }
+      .student,
+      .order,
+      .employee {
+        margin-top: 10px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      th,
+      td {
+        border-bottom: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background: #eef4ff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧮 Dashboard Nghiệp vụ Dữ liệu – Hiển thị đầy đủ 5 bài</h1>
+    <div class="dashboard">
+      <div class="card" id="b1">
+        <h2>1️⃣ ProductService</h2>
+        <p>Danh sách sản phẩm với ảnh thật, danh mục và giá bán.</p>
+        <button onclick="render('product')">Hiển thị</button>
+        <div class="result"></div>
+      </div>
+
+      <div class="card" id="b2">
+        <h2>2️⃣ StudentService</h2>
+        <p>Tính điểm trung bình và học viên có điểm cao nhất.</p>
+        <button onclick="render('student')">Hiển thị</button>
+        <div class="result"></div>
+      </div>
+
+      <div class="card" id="b3">
+        <h2>3️⃣ OrderService</h2>
+        <p>Đơn hàng, tổng tiền và khách hàng chi nhiều nhất.</p>
+        <button onclick="render('order')">Hiển thị</button>
+        <div class="result"></div>
+      </div>
+
+      <div class="card" id="b4">
+        <h2>4️⃣ EmployeeService</h2>
+        <p>Danh sách nhân viên và mức lương theo phòng ban.</p>
+        <button onclick="render('employee')">Hiển thị</button>
+        <div class="result"></div>
+      </div>
+
+      <div class="card" id="b5">
+        <h2>5️⃣ WatchHistoryService</h2>
+        <p>Video đã xem và tổng thời gian xem (video thật có thể phát).</p>
+        <button onclick="render('watch')">Hiển thị</button>
+        <div class="result"></div>
+      </div>
+    </div>
+
+    <script src="./js/demo.js"></script>
+    <script>
+      function render(type) {
+        const div = document.querySelector(
+          `#b${
+            {
+              product: 1,
+              student: 2,
+              order: 3,
+              employee: 4,
+              watch: 5,
+            }[type]
+          } .result`
+        );
+        div.innerHTML = "";
+
+        // ===== 1. PRODUCTS =====
+        if (type === "product") {
+          const data = [
+            {
+              name: "Laptop",
+              category: "Electronics",
+              price: 1200,
+              img: "https://images.pexels.com/photos/18105/pexels-photo.jpg",
+            },
+            {
+              name: "Phone",
+              category: "Electronics",
+              price: 800,
+              img: "https://images.pexels.com/photos/404280/pexels-photo-404280.jpeg",
+            },
+            {
+              name: "Shirt",
+              category: "Clothing",
+              price: 40,
+              img: "https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg",
+            },
+            {
+              name: "Shoes",
+              category: "Clothing",
+              price: 60,
+              img: "https://images.pexels.com/photos/19090/pexels-photo.jpg",
+            },
+            {
+              name: "Headphones",
+              category: "Electronics",
+              price: 150,
+              img: "https://images.pexels.com/photos/159853/headphones-black-audio-sound-159853.jpeg",
+            },
+          ];
+          const grid = document.createElement("div");
+          grid.className = "product-grid";
+          data.forEach((p) => {
+            const card = document.createElement("div");
+            card.className = "product-card";
+            card.innerHTML = `
+            <img src="${p.img}">
+            <div class="name">${p.name}</div>
+            <div class="category">${p.category}</div>
+            <div class="price">$${p.price}</div>`;
+            grid.appendChild(card);
+          });
+          div.appendChild(grid);
+        }
+
+        // ===== 2. STUDENTS =====
+        if (type === "student") {
+          const data = [
+            { name: "An", math: 8, english: 7, science: 9 },
+            { name: "Bình", math: 6, english: 8, science: 7 },
+            { name: "Châu", math: 9, english: 6, science: 8 },
+          ];
+          const table = document.createElement("table");
+          table.innerHTML = `
+          <tr><th>Tên</th><th>Toán</th><th>Anh</th><th>Khoa học</th><th>Trung bình</th></tr>
+          ${data
+            .map((s) => {
+              const avg = ((s.math + s.english + s.science) / 3).toFixed(2);
+              return `<tr><td>${s.name}</td><td>${s.math}</td><td>${s.english}</td><td>${s.science}</td><td>${avg}</td></tr>`;
+            })
+            .join("")}`;
+          div.appendChild(table);
+          const top = data.reduce((a, b) => {
+            const avgA = (a.math + a.english + a.science) / 3,
+              avgB = (b.math + b.english + b.science) / 3;
+            return avgB > avgA ? b : a;
+          });
+          const p = document.createElement("p");
+          p.innerHTML = `🏆 Học viên có điểm TB cao nhất: <b>${top.name}</b>`;
+          div.appendChild(p);
+        }
+
+        // ===== 3. ORDERS =====
+        if (type === "order") {
+          const data = [
+            { customer: "John", total: 1000 },
+            { customer: "Alice", total: 1150 },
+            { customer: "Bob", total: 400 },
+          ];
+          const table = document.createElement("table");
+          table.innerHTML = `
+          <tr><th>Khách hàng</th><th>Tổng tiền ($)</th></tr>
+          ${data
+            .map((o) => `<tr><td>${o.customer}</td><td>${o.total}</td></tr>`)
+            .join("")}`;
+          div.appendChild(table);
+          const max = data.reduce((a, b) => (a.total > b.total ? a : b));
+          const p = document.createElement("p");
+          p.innerHTML = `💎 Khách hàng chi nhiều nhất: <b>${max.customer}</b> (${max.total}$)`;
+          div.appendChild(p);
+        }
+
+        // ===== 4. EMPLOYEES =====
+        if (type === "employee") {
+          const data = [
+            {
+              name: "Mai",
+              department: "IT",
+              salary: 1200,
+              img: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg",
+            },
+            {
+              name: "Nam",
+              department: "HR",
+              salary: 800,
+              img: "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg",
+            },
+            {
+              name: "Hà",
+              department: "IT",
+              salary: 1500,
+              img: "https://images.pexels.com/photos/1181424/pexels-photo-1181424.jpeg",
+            },
+            {
+              name: "Linh",
+              department: "Marketing",
+              salary: 900,
+              img: "https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg",
+            },
+            {
+              name: "Phúc",
+              department: "IT",
+              salary: 1100,
+              img: "https://images.pexels.com/photos/1181391/pexels-photo-1181391.jpeg",
+            },
+          ];
+          const table = document.createElement("table");
+          table.innerHTML = `
+          <tr><th>Ảnh</th><th>Tên</th><th>Phòng ban</th><th>Lương ($)</th></tr>
+          ${data
+            .map(
+              (e) => `<tr>
+            <td><img src="${e.img}" width="40" style="border-radius:50%"></td>
+            <td>${e.name}</td><td>${e.department}</td><td>${e.salary}</td></tr>`
+            )
+            .join("")}`;
+          div.appendChild(table);
+        }
+
+        // ===== 5. WATCH (VIDEO) =====
+        if (type === "watch") {
+          const data = [
+            {
+              user: "An",
+              title: "JavaScript Crash Course",
+              video: "https://www.youtube.com/embed/PkZNo7MFNFg",
+            },
+            {
+              user: "Bình",
+              title: "React JS Tutorial",
+              video: "https://www.youtube.com/embed/bMknfKXIFA8",
+            },
+            {
+              user: "Châu",
+              title: "HTML & CSS Full Course",
+              video: "https://www.youtube.com/embed/G3e-cpL7ofc",
+            },
+          ];
+          const grid = document.createElement("div");
+          grid.className = "video-list";
+          data.forEach((v) => {
+            const card = document.createElement("div");
+            card.className = "video-card";
+            card.innerHTML = `
+            <iframe src="${v.video}" allowfullscreen></iframe>
+            <h4>${v.title}</h4>
+            <p>👤 Người xem: ${v.user}</p>`;
+            grid.appendChild(card);
+          });
+          div.appendChild(grid);
+        }
+      }
+    </script>
+  </body>
+</html>

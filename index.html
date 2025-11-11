@@ -338,12 +338,11 @@ console.log(findCustomerRichest(orders));
 
 function mergeAndGroupProducts(orders) {
   const products = {};
-  for (const order of orders) {
-    for (const item of order.items) {
+  for (order of orders) {
+    for (item of order.items) {
       const productName = item.name;
       if (!products[productName]) {
         products[productName] = {
-          name: item.name,
           price: item.price,
           quantity: item.quantity,
         };
@@ -352,8 +351,7 @@ function mergeAndGroupProducts(orders) {
       }
     }
   }
-
-  return Object.values(products);
+  return products;
 }
 console.log("Danh sách sản phẩm:");
 console.log(mergeAndGroupProducts(orders));</code></pre>
